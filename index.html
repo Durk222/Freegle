@@ -1,79 +1,112 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freegle - EA Style</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/@vkontakte/vkui@5.0.0/dist/vkui.css">
-    
-    <style>
-        /* Aquí es donde tú "EA-codeas" sobre la base de VK */
-        :root {
-            --vkui--color_background: #ffffff;
-            --vkui--color_text_primary: #161616;
-            /* Aquí cambiarías los azules de VK por los colores de EA */
-            --vkui--color_background_accent: #007cff; 
-        }
+<!-- FREEGLE, EL CÓDIGO DE ABAJO ES PARA PROTOTIPADO: -->
+<header>
+		<div class="navbar">
+			<div class="container">
+				<div class="cont-bar">
+				<div class="l-bar">
+					<img src="https://pngimg.com/uploads/vkontakte/vkontakte_PNG14.png" alt="">
+					<input type="text" placeholder="Поиск" id="serch">
+				</div>
+				<div class="r-bar"><a href="">Switch to English</a></div>
+			</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="header-content">
+				<div class="med">
+					<div class="f-cont">
+					<h3>Недавно входили на сайт с этого компьютера</h3>
+					<p>Чтобы войти снова, нажмите на фотографию или имя.</p>
+					<div class="f-cont-box">
+					<a href="#" class="wrap" onclick="show('block')"><img src="https://sun9-48.userapi.com/c855536/v855536005/1b8d99/CU6Y-BaXge4.jpg" alt="" class="img">
+							<span>Empty Madness</span>
+					</a>
+					<!--<div class="wrap"><img src="" alt="" class="img">
+							<span>Usres</span>
+					</div>
+					<div class="wrap"><img src="" alt="" class="img">
+							<span>Usres</span>
+					</div>
+					<div class="wrap"><img src="" alt="" class="img">
+							<span>Usres</span>
+					</div>
+					<div class="wrap"><img src="" alt="" class="img">
+							<span>Usres</span>
+					</div>-->
+					<div class="active"><div class="user">+</div>
+							<a href="#">Войти в другой<br> аккаунт</a>
+					</div>
+				</div>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Más estilo web EA */
-        }
-
-        .ea-header {
-            height: 60px;
-            border-bottom: 1px solid #e1e1e1;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            background: #fff;
-        }
-
-        .freegle-container {
-            max-width: 1000px;
-            margin: 20px auto;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 20px;
-        }
-
-        /* Estilo para tus 3 monedas en el perfil */
-        .currency-bar {
-            background: #f5f5f5;
-            padding: 10px;
-            display: flex;
-            justify-content: space-around;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body class="vkui--vkBase--light">
-
-    <header class="ea-header">
-        <h1 style="font-size: 20px;">Freegle</h1>
-    </header>
-
-    <div class="freegle-container">
-        <aside>
-            <nav>
-                <div class="vkuiSimpleCell">Perfil</div>
-                <div class="vkuiSimpleCell">Mensajes</div>
-                <div class="vkuiSimpleCell">Tienda de Estatus</div>
-            </nav>
-        </aside>
-
-        <main>
-            <div class="currency-bar">
-                <span title="Plata">🥈 150</span>
-                <span title="Oro">🥇 10</span>
-                <span title="Premium">💎 2</span>
-            </div>
-
-            <div style="margin-top: 20px;">
-                <p>Bienvenido a Freegle. Aquí el estatus lo es todo.</p>
-            </div>
-        </main>
+			</div>
+			<div class="pre-last"><div class="pretitle"><h3>ВКонтакте<br> для мобильных устройств</h3>
+				<p>Скачать для <a href="#">iPhone</a> <br>или <a href="#">Android</a></p>
+			</div>
+</div>
+				</div>
+			
+			<div class="r-cont">
+				<div class="f-form">
+					<form action="">
+						<input type="text" placeholder="Телефон или email" name="Email">
+						<input type="password" placeholder="Пароль" name="password">
+						<div class="form-button">
+							<button id="myModal"  class="btn" type = "button">Войти</button>
+							<a href="">Забыли пароль?</a>
+						</div>
+					</form>
+				<div class="t-form">
+					<form action="">
+						<h3>Впервые ВКонтакте?</h3>
+						<p>Моментальная регистрация</p>
+						<input type="text" placeholder="Ваше имя">
+						<input type="text" placeholder="Ваша фамилия">
+						<span>Дата рождения</span> <b></b>
+								<div class="sel">
+								<div><select name="" id="day">
+							<option value="day">День</option>
+								</select></div>
+								<div><select name="" id="month"><option value="">Месяц</option></select></div>
+								<div><select name="" id="year">
+							<option value="">Год</option></select>
+								</div>
+							</div>
+							<button class="btn2" type = "button">Продолжить регситрацию</button>
+						<button class="btn3" type = "button">Войти через Facebook</button>
+						
+					</form>
+				</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="alish"><a href="#">
+ВКонтакте</a> <p>2020 FinDelMan</p></div>
+			<div><a href="">О ВКонтакте</a>
+			<a href="">Правила</a>
+			<a href="">Реклама</a>
+			<a href="">Разработчикам</a></div>
+			<div>	<a href="">English</a>
+			<a href="">Русский</a>
+			<a href="">Українська</a>
+			<a href="">все языки »</a>		</div>
+		</footer>
+		</div>
+	
+	</header>
+	<!-- Форма входа -->
+<div id="window">
+  
+  <div class="decor">
+  <div class="form-inner">
+  	<div class="close" onclick="show('none')">✖	</div>
+    <img src="https://sun9-48.userapi.com/c855536/v855536005/1b8d99/CU6Y-BaXge4.jpg" alt="" style="    width: 100px;
+    height: 100px">
+    <p>Войти как <span>Empty Madness</span></p>
+    <input type="password" placeholder="Пароль">
+    <div class="prebt">
+	<button class="btn" onclick="show('none')">Войти </button>
+  	<a href="#">Забыли пароль ?</a>
+  </div>
     </div>
-
-</body>
-</html>
+</div>
