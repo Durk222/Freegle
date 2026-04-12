@@ -62,62 +62,72 @@ a {
 
 .parent {
     display: grid;
-    /* Columna 1: Menú (180px), Columna 2: Feed (Flexible), Columna 3: Widgets (300px) */
+    /* Columna 1: Menú, Columna 2: Feed, Columna 3: Widgets */
     grid-template-columns: 180px 1fr 300px;
-    /* Fila 1: Header (48px), Fila 2: Historias, Fila 3: Feed... */
+    /* Fila 1 fija en 48px, el resto se adapta */
     grid-template-rows: 48px auto 1fr; 
     gap: 16px;
-    max-width: 1024px; /* Ajustado a tu monitor */
+    max-width: 1024px;
     margin: 0 auto;
     padding: 0 12px 12px 12px; 
     min-height: 100vh;
 }
 
-/* Div 1: La barra superior que abarca todo el ancho */
-.div1 {
-    grid-column: 1 / span 3; /* Ocupa las 3 columnas */
-    height: 48px;
-    position: sticky; /* Se queda fija al hacer scroll */
-    top: 0;
-    z-index: 1000;
-    border-radius: 0 0 8px 8px;
+/* Estilo de los contenedores: Limpio y moderno */
+.parent > div {
+    /* Usamos el fondo de la página, no el de detalles */
+    background-color: var(--bg-base); 
+    border-radius: 8px;
+    padding: 12px;
+    /* Usamos el color de detalles solo para el borde */
+    border: 1px solid var(--bg-details);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Div 2: Menú lateral izquierdo (VK style) */
+/* Div 1: Barra superior (Sticky) */
+.div1 {
+    grid-column: 1 / span 3;
+    height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Borde solo abajo para la barra para que pegue arriba */
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+}
+
+/* Div 2: Menú lateral izquierdo */
 .div2 {
     grid-column: 1;
     grid-row: 2 / span 2;
-    align-self: start; /* No se estira si hay poco texto */
+    align-self: start;
+    /* VK no suele usar bordes en el menú lateral, si quieres quitarlo 
+       puedes poner border: none; aquí */
 }
 
-/* Div 3: Espacio para Historias (Encima del feed) */
+/* Div 3: Historias / Reels */
 .div3 {
     grid-column: 2;
     grid-row: 2;
 }
 
-/* Div 5: El Feed principal */
+/* Div 5: Feed Principal */
 .div5 {
     grid-column: 2;
     grid-row: 3;
 }
 
-/* Div 4: Tendencias (Columna derecha superior) */
+/* Div 4: Tendencias */
 .div4 {
     grid-column: 3;
     grid-row: 2;
 }
 
-/* Div 6 y 7: Publicidad (Debajo de tendencias) */
+/* Div 6 y 7: Widgets / Publicidad */
 .div6, .div7 {
     grid-column: 3;
-    /* Se apilan en la columna derecha */
-}
-
-/* Limpieza de estilos temporales para que no estorben */
-.parent > div {
-    background-color: var(--bg-details);
-    border-radius: 8px;
-    padding: 10px;
-    border: 1px solid rgba(0,0,0,0.05);
 }
