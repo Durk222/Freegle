@@ -1,11 +1,59 @@
+/* ✧ ─── ⋆⋅☆⋅⋆ ─────────────── ✧
+   F R E E G L E   S T Y L E S
+   G L O B A L   V A R I A B L E S
+✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
+
+:root {
+    /* ✦ Light Mode (Default) ✦ */
+    --bg-base: #FDFBFF;
+    --bg-details: #DCF1FB;
+    --text-main: #153A6E;
+    --text-title: #315B79;
+    --link-accent: #207E14;
+}
+
+[data-theme="dark"] {
+    /* ✦ Dark Mode ✦ */
+    --bg-base: #181F4F;
+    --bg-details: #4C5175;
+    --text-main: #FDFBFF;
+    --text-title: #6893D7;
+    --link-accent: #20D70E;
+}
+
+/* ✧ ─── ⋆⋅☆⋅⋆ ─────────────── ✧
+   T Y P O G R A P H Y & B A S E
+✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
+
+/* Aplicación global de fondo y texto base con transición suave */
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* Aplicando Righteous a los títulos */
 h1, h2, h3 {
     font-family: 'Righteous', cursive;
+    color: var(--text-title);
+    transition: color 0.3s ease;
 }
 
 /* Aplicando Josefin Sans al texto normal y cuerpo */
-body, p, span, div, input, button, a {
+body, p, span, div, input, button {
     font-family: 'Josefin Sans', sans-serif;
 }
+
+/* Estilos de enlaces */
+a {
+    font-family: 'Josefin Sans', sans-serif;
+    color: var(--link-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* ✧ ─── ⋆⋅☆⋅⋆ ─────────────── ✧
+   L A Y O U T   &   C O M P O N E N T S
+✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
 
 /* A partir de aquí puedes pegar el CSS que extraigas de la página */
