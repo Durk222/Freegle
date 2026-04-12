@@ -3,6 +3,12 @@
    G L O B A L   V A R I A B L E S
 ✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 :root {
     /* ✦ Light Mode (Default) ✦ */
     --bg-base: #FDFBFF;
