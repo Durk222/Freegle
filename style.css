@@ -62,69 +62,62 @@ a {
 
 .parent {
     display: grid;
-    /* Definimos la primera fila en 48px y las demás en fracciones */
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 48px repeat(5, 1fr); 
+    /* Columna 1: Menú (180px), Columna 2: Feed (Flexible), Columna 3: Widgets (300px) */
+    grid-template-columns: 180px 1fr 300px;
+    /* Fila 1: Header (48px), Fila 2: Historias, Fila 3: Feed... */
+    grid-template-rows: 48px auto 1fr; 
     gap: 16px;
-    max-width: 1200px;
+    max-width: 1024px; /* Ajustado a tu monitor */
     margin: 0 auto;
-    /* Padding lateral y abajo, pero 0 arriba para que la barra pegue */
-    padding: 0 20px 20px 20px; 
+    padding: 0 12px 12px 12px; 
     min-height: 100vh;
 }
 
-/* Estilos temporales para visualizar los bloques */
+/* Div 1: La barra superior que abarca todo el ancho */
+.div1 {
+    grid-column: 1 / span 3; /* Ocupa las 3 columnas */
+    height: 48px;
+    position: sticky; /* Se queda fija al hacer scroll */
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Div 2: Menú lateral izquierdo (VK style) */
+.div2 {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    align-self: start; /* No se estira si hay poco texto */
+}
+
+/* Div 3: Espacio para Historias (Encima del feed) */
+.div3 {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* Div 5: El Feed principal */
+.div5 {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* Div 4: Tendencias (Columna derecha superior) */
+.div4 {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+/* Div 6 y 7: Publicidad (Debajo de tendencias) */
+.div6, .div7 {
+    grid-column: 3;
+    /* Se apilan en la columna derecha */
+}
+
+/* Limpieza de estilos temporales para que no estorben */
 .parent > div {
     background-color: var(--bg-details);
     border-radius: 8px;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.div1 {
-    grid-column: span 5 / span 5;
-    height: 48px; /* Ajustado a tu estándar */
-    /* Eliminamos el borde redondeado superior para que se vea integrado al borde */
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-.div2 {
-    grid-row: span 5 / span 5;
-    grid-row-start: 2;
-}
-
-.div3 {
-    grid-column: span 2 / span 2;
-    grid-row-start: 2;
-}
-
-.div4 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
-    grid-column-start: 4;
-    grid-row-start: 2;
-}
-
-.div5 {
-    grid-column: span 2 / span 2;
-    grid-row: span 4 / span 4;
-    grid-column-start: 2;
-    grid-row-start: 3;
-}
-
-.div6 {
-    grid-row: span 3 / span 3;
-    grid-column-start: 4;
-    grid-row-start: 4;
-}
-
-.div7 {
-    grid-row: span 3 / span 3;
-    grid-column-start: 5;
-    grid-row-start: 4;
 }
