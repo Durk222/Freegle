@@ -111,8 +111,7 @@ a {
     grid-column: 1;
     grid-row: 2 / span 2;
     align-self: start;
-    /* VK no suele usar bordes en el menú lateral, si quieres quitarlo 
-       puedes poner border: none; aquí */
+    border: none; 
 }
 
 /* Div 3: Historias / Reels */
@@ -136,4 +135,47 @@ a {
 /* Div 6 y 7: Widgets / Publicidad */
 .div6, .div7 {
     grid-column: 3;
+}
+
+/* ✧ ─── ⋆⋅☆⋅⋆ ─────────────── ✧
+   S I D E   M E N U   S T Y L E S
+✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
+
+.side-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.side-menu a {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 14px; /* Tamaño estándar VK */
+    color: var(--text-main);
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+/* Efecto hover estilo VK/Facebook */
+.side-menu a:hover {
+    background-color: var(--bg-details);
+    color: var(--text-title);
+}
+
+/* Los iconos */
+.side-menu a i {
+    margin-right: 12px;
+    width: 20px; /* Ancho fijo para que el texto quede alineado */
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-title); /* Los iconos suelen resaltar un poco más */
+}
+
+/* El divisor de 1px que pediste */
+.separator {
+    height: 1px;
+    background-color: var(--bg-details);
+    margin: 8px 12px;
+    opacity: 0.6;
 }
