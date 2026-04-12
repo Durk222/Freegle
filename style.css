@@ -56,4 +56,70 @@ a {
    L A Y O U T   &   C O M P O N E N T S
 ✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
 
-/* A partir de aquí puedes pegar el CSS que extraigas de la página */
+/* ✧ ─── ⋆⋅☆⋅⋆ ─────────────── ✧
+   M A I N   L A Y O U T   (G R I D)
+✧ ─────────────── ⋆⋅☆⋅⋆ ─── ✧ */
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 16px;
+    max-width: 1200px; /* Ancho estándar de Facebook/VK */
+    margin: 0 auto;    /* Centra la app en la pantalla */
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Estilos temporales para visualizar los bloques */
+.parent > div {
+    background-color: var(--bg-details);
+    border-radius: 8px; /* Bordes suaves estilo EA */
+    padding: 15px;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.div1 {
+    grid-column: span 5 / span 5;
+    height: 60px; /* Altura fija para la barra superior */
+}
+
+.div2 {
+    grid-row: span 5 / span 5;
+    grid-row-start: 2;
+}
+
+.div3 {
+    grid-column: span 2 / span 2;
+    grid-row-start: 2;
+}
+
+.div4 {
+    grid-column: span 2 / span 2;
+    grid-row: span 2 / span 2;
+    grid-column-start: 4;
+    grid-row-start: 2;
+}
+
+.div5 {
+    grid-column: span 2 / span 2;
+    grid-row: span 4 / span 4;
+    grid-column-start: 2;
+    grid-row-start: 3;
+}
+
+.div6 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 4;
+}
+
+.div7 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 5;
+    grid-row-start: 4;
+}
