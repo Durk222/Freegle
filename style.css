@@ -62,19 +62,21 @@ a {
 
 .parent {
     display: grid;
+    /* Definimos la primera fila en 48px y las demás en fracciones */
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: 48px repeat(5, 1fr); 
     gap: 16px;
-    max-width: 1200px; /* Ancho estándar de Facebook/VK */
-    margin: 0 auto;    /* Centra la app en la pantalla */
-    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Padding lateral y abajo, pero 0 arriba para que la barra pegue */
+    padding: 0 20px 20px 20px; 
     min-height: 100vh;
 }
 
 /* Estilos temporales para visualizar los bloques */
 .parent > div {
     background-color: var(--bg-details);
-    border-radius: 8px; /* Bordes suaves estilo EA */
+    border-radius: 8px;
     padding: 15px;
     border: 1px solid rgba(0,0,0,0.05);
     display: flex;
@@ -85,7 +87,10 @@ a {
 
 .div1 {
     grid-column: span 5 / span 5;
-    height: 60px; /* Altura fija para la barra superior */
+    height: 48px; /* Ajustado a tu estándar */
+    /* Eliminamos el borde redondeado superior para que se vea integrado al borde */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .div2 {
