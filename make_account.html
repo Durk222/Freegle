@@ -90,6 +90,13 @@
             display: none;
         }
     </style>
+    <script>
+    // Esto se ejecuta ANTES de que la página se dibuje
+    const savedTheme = localStorage.getItem('themePreference');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+</script>
 </head>
 <body class="register-body">
 
