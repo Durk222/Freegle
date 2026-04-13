@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freegle</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .register-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-base);
+        }
+        .register-card {
+            background-color: var(--bg-base);
+            border: 1px solid var(--bg-details);
+            padding: 30px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .register-card h2 {
+            font-family: 'Righteous', cursive;
+            color: var(--text-title);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--bg-details);
+            border-radius: 8px;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+        
+        /* Botones Estilo Freegle */
+        .btn-login {
+            --p: 15px;
+            width: 100%;
+            background-color: var(--link-accent);
+            color: white;
+            font-family: 'Righteous', cursive;
+            border: none;
+            padding: 14px;
+            cursor: pointer;
+            clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+            margin-top: 10px;
+            font-size: 16px;
+            transition: filter 0.2s;
+        }
+        .btn-login:hover { filter: brightness(1.2); }
+
+        .btn-forgot {
+            --p: 10px;
+            background-color: var(--bg-details);
+            color: var(--text-title);
+            font-family: 'Righteous', cursive;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+            font-size: 11px;
+            margin-top: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+        }
+    </style>
+    <script>
+        const savedTheme = localStorage.getItem('themePreference');
+        if (savedTheme) { document.documentElement.setAttribute('data-theme', savedTheme); }
+    </script>
+</head>
+<body class="register-body">
+
+    <div class="register-card">
+        <h2>Bienvenido a Freegle</h2>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" id="email" required placeholder="tu@correo.com">
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn-login">ENTRAR</button>
+        </form>
+
+        <button class="btn-forgot" id="btnReset">¿OLVIDASTE TU CONTRASEÑA?</button>
+
+        <div class="footer-link">
+            ¿No tienes cuenta? <a href="make_account.html">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth } from './firebase-config.js';
+        import { signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const loginForm = document.getElementById('loginForm');
+
+        // Lógica de Inicio de Sesión
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Error:", error.code);
+                if (error.code === 'auth/invalid-credential') {
+                    alert("Correo o contraseña incorrectos.");
+                } else {
+                    alert("Error al entrar: " + error.message);
+                }
+            }
+        });
+
+        // Lógica de "Olvidé mi contraseña"
+        document.getElementById('btnReset').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert("Por favor, escribe tu correo en la casilla de arriba primero.");
+                return;
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alert("Te hemos enviado un correo para restablecer tu contraseña.");
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
