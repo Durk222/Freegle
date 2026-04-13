@@ -646,8 +646,6 @@ a {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 
-    /* Quitamos el borde de abajo para que no se vea una línea sobre la info del usuario */
-    border-bottom: none; 
 }
 
 .user-info-row {
@@ -720,7 +718,7 @@ a {
 
 /* Clase para que el perfil tome el control del centro */
 .profile-expanded {
-    padding: 8 !important;
+    padding: 0 !important;
     overflow: hidden;
     
     grid-column: 2;
