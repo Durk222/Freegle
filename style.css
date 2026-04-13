@@ -637,6 +637,17 @@ a {
     background-color: #2a2a2a;
     background-size: cover;
     background-position: center;
+
+    /* Borde del color de la app */
+    border: 1px solid var(--bg-details);
+    
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    /* Quitamos el borde de abajo para que no se vea una línea sobre la info del usuario */
+    border-bottom: none; 
 }
 
 .user-info-row {
@@ -709,6 +720,9 @@ a {
 
 /* Clase para que el perfil tome el control del centro */
 .profile-expanded {
+    padding: 8 !important;
+    overflow: hidden;
+    
     grid-column: 2;
     grid-row: 2 / span 2; /* Ocupa el lugar de historias y feed */
     background-color: var(--bg-base);
