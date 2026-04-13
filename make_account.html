@@ -158,7 +158,10 @@
     // 1. Importamos la conexión y las herramientas de Firebase
     import { auth, db, createUserWithEmailAndPassword, setDoc, doc } from './firebase-config.js';
 
-    // Función para previsualizar la imagen (se mantiene igual pero dentro del scope)
+    const WORKER_URL = "https://freegle-uploader.carvalloalan005.workers.dev/";
+    const R2_PUBLIC_URL = "https://pub-991976d0c4fe4243a60ad4a18113a774.r2.dev"; 
+
+    // Función para previsualizar la imagen
     window.previewImage = function(event) {
         const reader = new FileReader();
         reader.onload = function() {
@@ -168,7 +171,6 @@
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    // 2. Manejador del Formulario
     const registerForm = document.getElementById('registerForm');
 
     registerForm.addEventListener('submit', async (event) => {
@@ -182,20 +184,40 @@
         const name = document.getElementById('name').value;
         const birthdate = document.getElementById('birthdate').value;
         const bio = document.getElementById('bio').value;
+        const avatarFile = document.getElementById('avatar').files[0];
 
-        // Validaciones previas
         if (pass !== confirm) {
             alert("Las contraseñas no coinciden");
             return;
         }
 
         try {
-            // A. Crear el usuario en Firebase Authentication (Correo y Pass)
+            // A. Crear el usuario en Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
             const user = userCredential.user;
 
-            // B. Guardar la información extendida en Firestore (Base de datos)
-            // Usamos el UID del usuario como nombre del documento
+            let finalAvatarUrl = ""; // Por defecto vacío si no sube nada
+
+            // B. Subida a Cloudflare R2 si hay un archivo seleccionado
+            if (avatarFile) {
+                const extension = avatarFile.name.split('.').pop();
+                const fileName = `avatars/${user.uid}.${extension}`;
+                
+                // Llamada a tu Worker
+                const uploadResponse = await fetch(`${WORKER_URL}?file=${fileName}`, {
+                    method: 'POST',
+                    body: avatarFile,
+                    headers: { 'Content-Type': avatarFile.type }
+                });
+
+                if (uploadResponse.ok) {
+                    finalAvatarUrl = `${R2_PUBLIC_URL}/${fileName}`;
+                } else {
+                    console.error("Error en el Worker al subir la imagen");
+                }
+            }
+
+            // C. Guardar la información extendida en Firestore
             await setDoc(doc(db, "users", user.uid), {
                 displayName: name,
                 username: username.toLowerCase(),
@@ -203,20 +225,16 @@
                 birthdate: birthdate,
                 bio: bio,
                 createdAt: new Date(),
-                avatarUrl: "" // Luego lo usaremos para Firebase Storage
+                avatarUrl: finalAvatarUrl // Ahora sí guardamos el link real de R2
             });
 
-            alert("¡Bienvenido a Freegle! Cuenta creada.");
+            alert("¡Bienvenido a Freegle! Cuenta creada con foto.");
             window.location.href = "index.html";
 
         } catch (error) {
-            // Manejo de errores de Firebase (Ej: correo ya usado)
             console.error("Error al registrar:", error.code);
-            
             if (error.code === 'auth/email-already-in-use') {
                 alert("Este correo ya está registrado.");
-            } else if (error.code === 'auth/weak-password') {
-                alert("La contraseña debe tener al menos 6 caracteres.");
             } else {
                 alert("Hubo un error: " + error.message);
             }
