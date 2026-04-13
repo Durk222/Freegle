@@ -154,43 +154,74 @@
         </form>
     </div>
 
-    <script>
-        // Previsualización de imagen
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const preview = document.getElementById('preview');
-                preview.innerHTML = `<img src="${reader.result}" style="width:100%; height:100%; object-fit:cover;">`;
-            }
-            reader.readAsDataURL(event.target.files[0]);
+    <script type="module">
+    // 1. Importamos la conexión y las herramientas de Firebase
+    import { auth, db, createUserWithEmailAndPassword, setDoc, doc } from './firebase-config.js';
+
+    // Función para previsualizar la imagen (se mantiene igual pero dentro del scope)
+    window.previewImage = function(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = `<img src="${reader.result}" style="width:100%; height:100%; object-fit:cover;">`;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // 2. Manejador del Formulario
+    const registerForm = document.getElementById('registerForm');
+
+    registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        // Captura de valores
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+        const confirm = document.getElementById('confirmPassword').value;
+        const username = document.getElementById('username').value;
+        const name = document.getElementById('name').value;
+        const birthdate = document.getElementById('birthdate').value;
+        const bio = document.getElementById('bio').value;
+
+        // Validaciones previas
+        if (pass !== confirm) {
+            alert("Las contraseñas no coinciden");
+            return;
         }
 
-        // Validación Lógica
-        function validateForm(event) {
-            event.preventDefault();
+        try {
+            // A. Crear el usuario en Firebase Authentication (Correo y Pass)
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+            const user = userCredential.user;
+
+            // B. Guardar la información extendida en Firestore (Base de datos)
+            // Usamos el UID del usuario como nombre del documento
+            await setDoc(doc(db, "users", user.uid), {
+                displayName: name,
+                username: username.toLowerCase(),
+                email: email,
+                birthdate: birthdate,
+                bio: bio,
+                createdAt: new Date(),
+                avatarUrl: "" // Luego lo usaremos para Firebase Storage
+            });
+
+            alert("¡Bienvenido a Freegle! Cuenta creada.");
+            window.location.href = "index.html";
+
+        } catch (error) {
+            // Manejo de errores de Firebase (Ej: correo ya usado)
+            console.error("Error al registrar:", error.code);
             
-            const pass = document.getElementById('password').value;
-            const confirm = document.getElementById('confirmPassword').value;
-            const username = document.getElementById('username').value;
-
-            // 1. Validar contraseñas iguales
-            if (pass !== confirm) {
-                alert("Las contraseñas no coinciden");
-                return false;
+            if (error.code === 'auth/email-already-in-use') {
+                alert("Este correo ya está registrado.");
+            } else if (error.code === 'auth/weak-password') {
+                alert("La contraseña debe tener al menos 6 caracteres.");
+            } else {
+                alert("Hubo un error: " + error.message);
             }
-
-            // 2. Simulación de validación de disponibilidad (Aquí iría el Backend después)
-            if (username.toLowerCase() === "admin") {
-                document.getElementById('userError').innerText = "Este nombre de usuario ya está ocupado";
-                document.getElementById('userError').style.display = "block";
-                return false;
-            }
-
-            // 3. Éxito
-            alert("¡Cuenta creada con éxito! Bienvenido a Freegle.");
-            window.location.href = "index.html"; // Regresa al feed principal
-            return true;
         }
-    </script>
+    });
+</script>
 </body>
 </html>
