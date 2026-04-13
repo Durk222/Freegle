@@ -315,22 +315,50 @@
 window.closeEditModal = () => {
     document.getElementById('edit-profile-modal').style.display = 'none';
 };
+    async function uploadToR2(file, folder = "profiles") {
+    if (!file) return null;
+
+    const fileName = `${folder}/${Date.now()}-${file.name}`;
+    const workerUrl = `https://freegle-uploader.carvalloalan005.workers.dev/${fileName}`;
+
+    try {
+        const response = await fetch(workerUrl, {
+    method: 'PUT', 
+    body: file,
+    headers: {
+        'Content-Type': file.type,
+    },
+    mode: 'cors' 
+});
+
+        if (response.ok) {
+            // Retornamos la URL pública de R2
+            return `https://pub-991976d0c4fe4243a60ad4a18113a774.r2.dev/${fileName}`;
+        } else {
+            console.error("Error en R2:", await response.text());
+            return null;
+        }
+    } catch (err) {
+        console.error("Fallo al conectar con el Worker:", err);
+        return null;
+    }
+}
 
 async function openEditModal(uid, currentData) {
     const modal = document.getElementById('edit-profile-modal');
     modal.style.display = 'flex';
 
-    // 1. Cargar datos actuales en la preview
+    // Rellenar datos y previews actuales
     document.getElementById('preview-banner').src = currentData.bannerUrl || '';
     document.getElementById('preview-avatar').src = currentData.avatarUrl || 'default-avatar.png';
     document.getElementById('edit-display-name').value = currentData.displayName || '';
     document.getElementById('edit-bio').value = currentData.bio || '';
 
-    // 2. Lógica de clics para abrir el selector de archivos
+    // Triggers para los inputs ocultos
     document.getElementById('trigger-banner').onclick = () => document.getElementById('input-banner').click();
     document.getElementById('trigger-avatar').onclick = () => document.getElementById('input-avatar').click();
 
-    // 3. Previsualización instantánea al seleccionar archivo
+    // Previsualización instantánea (Local)
     const handlePreview = (input, imgId) => {
         const file = input.files[0];
         if (file) {
@@ -341,26 +369,32 @@ async function openEditModal(uid, currentData) {
     document.getElementById('input-banner').onchange = (e) => handlePreview(e.target, 'preview-banner');
     document.getElementById('input-avatar').onchange = (e) => handlePreview(e.target, 'preview-avatar');
 
-    // 4. Botón Guardar
+    // --- ACCIÓN DE GUARDAR ---
     document.getElementById('btn-save-profile').onclick = async () => {
+        const btn = document.getElementById('btn-save-profile');
+        btn.innerText = "SUBIENDO...";
+        btn.disabled = true;
+
         const bannerFile = document.getElementById('input-banner').files[0];
         const avatarFile = document.getElementById('input-avatar').files[0];
-        
-        let bannerUrl = currentData.bannerUrl;
-        let avatarUrl = currentData.avatarUrl;
 
-        // Aquí llamarías a tu función de subida a Cloudflare R2
-        // Ejemplo: bannerUrl = await uploadToR2(bannerFile);
-        
+        // Subir imágenes solo si el usuario seleccionó archivos nuevos
+        const newBannerUrl = bannerFile ? await uploadToR2(bannerFile, "banners") : currentData.bannerUrl;
+        const newAvatarUrl = avatarFile ? await uploadToR2(avatarFile, "avatars") : currentData.avatarUrl;
+
+        // Actualizar Firebase con las nuevas URLs de R2
         const userRef = doc(db, "users", uid);
         await updateDoc(userRef, {
+            avatarUrl: newAvatarUrl || '',
+            bannerUrl: newBannerUrl || '',
             displayName: document.getElementById('edit-display-name').value,
-            bio: document.getElementById('edit-bio').value,
-            // bannerUrl, avatarUrl se actualizarían aquí tras la subida
+            bio: document.getElementById('edit-bio').value
         });
-        
+
+        btn.innerText = "GUARDAR CAMBIOS";
+        btn.disabled = false;
         closeEditModal();
-        showProfile(uid);
+        showProfile(uid); // Refresca la vista del perfil
     };
 }
 </script>
