@@ -548,7 +548,7 @@ a {
 }
 
 .trend-content:hover {
-    background-color: rgba(32, 126, 20, 0.05); /* Un toque leve del verde al pasar el mouse */
+    background-color: rgba(32, 126, 20, 0.05);
     transform: translateX(3px);
 }
 
@@ -622,4 +622,133 @@ a {
 
 .logout-btn i {
     font-size: 14px;
+}
+
+/* Contenedor del Perfil (Div Central de 480px) */
+.profile-container {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: var(--bg-base);
+}
+
+/* Panel de Usuario (Banner + Info) */
+.profile-header {
+    position: relative;
+    border-bottom: 1px solid var(--bg-details);
+}
+
+.profile-banner {
+    width: 100%;
+    height: 160px;
+    background-color: var(--bg-details);
+    background-size: cover;
+    background-position: center;
+}
+
+.profile-info-bar {
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-avatar-wrapper {
+    position: absolute;
+    top: -50px;
+    left: 15px;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid var(--bg-base);
+    background-color: var(--bg-details);
+    object-fit: cover;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.profile-details h2 {
+    font-family: 'Righteous', cursive;
+    font-size: 20px;
+    margin: 35px 0 5px 0; /* Espacio para el avatar que flota */
+}
+
+.profile-details p {
+    font-size: 14px;
+    color: var(--text-main);
+    line-height: 1.4;
+}
+
+/* Métricas (Seguidores, Amigos, etc.) */
+.profile-metrics {
+    display: flex;
+    padding: 15px;
+    gap: 20px;
+    border-bottom: 1px solid var(--bg-details);
+}
+
+.metric-item {
+    text-align: center;
+}
+
+.metric-value {
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: var(--text-main);
+    opacity: 0.7;
+}
+
+/* Categorías y Filtros */
+.content-tabs {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 5px;
+    gap: 5px;
+    border-bottom: 1px solid var(--bg-details);
+    scrollbar-width: none;
+}
+
+.tab-btn {
+    --p: 8px;
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--bg-details);
+    padding: 6px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+}
+
+.tab-btn.active {
+    background: var(--link-accent);
+    color: white;
+    border-color: var(--link-accent);
+}
+
+/* Botón estilo Paralelegramo Pequeño */
+.btn-edit {
+    --p: 10px;
+    background-color: var(--bg-details);
+    color: var(--text-title);
+    border: none;
+    padding: 5px 15px;
+    font-family: 'Righteous', cursive;
+    font-size: 12px;
+    cursor: pointer;
+    clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
 }
