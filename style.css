@@ -706,3 +706,20 @@ a {
     color: var(--link-accent);
     border-bottom: 2px solid var(--link-accent);
 }
+
+/* Clase para que el perfil tome el control del centro */
+.profile-expanded {
+    grid-column: 2;
+    grid-row: 2 / span 2; /* Ocupa el lugar de historias y feed */
+    background-color: var(--bg-base);
+    border: 1px solid var(--bg-details);
+    border-radius: 8px;
+    z-index: 10;
+    align-self: start;
+    display: block !important; /* Para que no use el flex por defecto del grid */
+}
+
+/* Ocultar elementos cuando el perfil está activo */
+.hidden-by-profile {
+    display: none !important;
+}
