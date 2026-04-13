@@ -214,63 +214,62 @@
 
     // --- FUNCIÓN PARA DIBUJAR EL PERFIL ---
     async function showProfile(uid) {
-        const userDoc = await getDoc(doc(db, "users", uid));
-        if (!userDoc.exists()) return;
-        const data = userDoc.data();
+    const userDoc = await getDoc(doc(db, "users", uid));
+    if (!userDoc.exists()) return;
+    const data = userDoc.data();
 
-        // Inyectamos la estructura dentro de div5
-        mainCenter.innerHTML = `
-            <div class="profile-view">
-                <div class="profile-card">
-                    <div class="user-banner" id="p-banner" style="background-image: url('${data.bannerUrl || ''}'); background-color: #2a2a2a;"></div>
-                    <div class="user-info-row">
-                        <div class="user-avatar-main">
-                            <img src="${data.avatarUrl || 'default-avatar.png'}" id="p-avatar">
-                        </div>
-                        <div class="user-actions-row">
-                            <button class="btn-skew" id="btn-edit-profile">EDITAR PERFIL</button>
-                            <button class="icon-btn"><i class="fa-solid fa-ellipsis"></i></button>
-                        </div>
+    const div3 = document.querySelector('.div3');
+    const div5 = document.querySelector('.div5');
+
+    // 1. Ocultamos las historias sin borrarlas del HTML
+    div3.classList.add('hidden-by-profile');
+
+    // 2. Expandimos el div5 para que suba al espacio del div3
+    div5.classList.add('profile-expanded');
+
+    // 3. Inyectamos el contenido del perfil
+    div5.innerHTML = `
+        <div class="profile-view">
+            <div class="profile-card">
+                <div class="user-banner" style="background-image: url('${data.bannerUrl || ''}');"></div>
+                <div class="user-info-row">
+                    <div class="user-avatar-main">
+                        <img src="${data.avatarUrl || 'default-avatar.png'}">
                     </div>
-                    <div class="user-text-details">
-                        <h2 id="p-name">${data.displayName}</h2>
-                        <span style="color: var(--link-accent); font-weight: bold;">@${data.username}</span>
-                        <p id="p-bio" style="margin-top: 8px;">${data.bio || 'Sin biografía aún...'}</p>
+                    <div class="user-actions-row">
+                        <button class="btn-skew">EDITAR PERFIL</button>
+                        <button class="icon-btn"><i class="fa-solid fa-ellipsis"></i></button>
                     </div>
                 </div>
-
-                <div class="profile-sep"></div> <div class="profile-metrics">
-                    <div class="metric">
-                        <span class="m-count">0</span>
-                        <span class="m-label">Publicaciones</span>
-                    </div>
-                    <div class="metric">
-                        <span class="m-count">0</span>
-                        <span class="m-label">Seguidores</span>
-                    </div>
-                    <div class="metric">
-                        <span class="m-count">0</span>
-                        <span class="m-label">Amigos</span>
-                    </div>
-                </div>
-
-                <div class="profile-sep"></div> <div class="profile-nav-tabs">
-                    <div class="tabs-list">
-                        <button class="tab-item active">Publicaciones</button>
-                        <button class="tab-item">Fotos</button>
-                        <button class="tab-item">Videos</button>
-                        <button class="tab-item">Música</button>
-                        <button class="tab-item">En Vivo</button>
-                    </div>
-                    <button class="icon-btn" title="Filtrar"><i class="fa-solid fa-sliders"></i></button>
-                </div>
-                
-                <div id="profile-posts-list" style="padding: 15px;">
-                    <p style="text-align: center; opacity: 0.5; font-size: 13px;">Aún no hay publicaciones.</p>
+                <div class="user-text-details">
+                    <h2>${data.displayName}</h2>
+                    <span style="color: var(--link-accent)">@${data.username}</span>
+                    <p>${data.bio || 'Sin biografía...'}</p>
                 </div>
             </div>
-        `;
-    }
+
+            <div class="profile-sep"></div>
+
+            <div class="profile-metrics">
+                <div class="metric"><span class="m-count">0</span><span class="m-label">Publicaciones</span></div>
+                <div class="metric"><span class="m-count">0</span><span class="m-label">Seguidores</span></div>
+                <div class="metric"><span class="m-count">0</span><span class="m-label">Amigos</span></div>
+            </div>
+
+            <div class="profile-sep"></div>
+
+            <div class="profile-nav-tabs">
+                <div class="tabs-list">
+                    <button class="tab-item active">Publicaciones</button>
+                    <button class="tab-item">Fotos</button>
+                    <button class="tab-item">Videos</button>
+                    <button class="tab-item">Música</button>
+                </div>
+                <button class="icon-btn"><i class="fa-solid fa-sliders"></i></button>
+            </div>
+        </div>
+    `;
+}
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
