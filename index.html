@@ -210,15 +210,64 @@
     import { getDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const authUI = document.getElementById('auth-ui');
+    const mainCenter = document.querySelector('.div5'); // Seleccionamos el centro
 
-    // Escuchar el estado de la sesión
+    // --- FUNCIÓN PARA PINTAR EL PERFIL EN EL DIV 5 ---
+    async function showProfile(uid) {
+        const userDoc = await getDoc(doc(db, "users", uid));
+        if (!userDoc.exists()) return;
+        const data = userDoc.data();
+
+        // Limpiamos el feed y metemos el perfil
+        mainCenter.innerHTML = `
+            <div class="profile-view">
+                <div class="profile-card">
+                    <div class="user-banner" style="background-image: url('${data.bannerUrl || ''}');"></div>
+                    <div class="user-info-row">
+                        <div class="user-avatar-main">
+                            <img src="${data.avatarUrl || 'default-avatar.png'}">
+                        </div>
+                        <div class="user-actions-row">
+                            <button class="btn-skew">EDITAR PERFIL</button>
+                            <button class="btn-skew"><i class="fa-solid fa-ellipsis"></i></button>
+                        </div>
+                    </div>
+                    <div class="user-text-details">
+                        <h2>${data.displayName}</h2>
+                        <span style="color: var(--link-accent)">@${data.username}</span>
+                        <p>${data.bio || 'Sin biografía...'}</p>
+                    </div>
+                </div>
+
+                <div class="profile-sep"></div>
+
+                <div class="profile-metrics">
+                    <div class="metric"><span class="m-count">0</span><span class="m-label">Publicaciones</span></div>
+                    <div class="metric"><span class="m-count">0</span><span class="m-label">Seguidores</span></div>
+                    <div class="metric"><span class="m-count">0</span><span class="m-label">Amigos</span></div>
+                </div>
+
+                <div class="profile-sep"></div>
+
+                <div class="profile-nav-tabs">
+                    <div class="tabs-list">
+                        <button class="tab-item active">Publicaciones</button>
+                        <button class="tab-item">Fotos</button>
+                        <button class="tab-item">Videos</button>
+                        <button class="tab-item">Música</button>
+                        <button class="tab-item">En Vivo</button>
+                    </div>
+                    <button class="icon-btn"><i class="fa-solid fa-sliders"></i></button>
+                </div>
+            </div>
+        `;
+    }
+
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // USUARIO CONECTADO: Buscamos sus datos en Firestore
             const userDoc = await getDoc(doc(db, "users", user.uid));
             const userData = userDoc.data();
 
-            // Cambiamos los botones por el perfil (Estilo EA/Gaming)
             authUI.innerHTML = `
                 <div class="user-profile-nav">
                     <span class="nav-username">${userData.username}</span>
@@ -229,17 +278,20 @@
                 </div>
             `;
 
-            document.getElementById('btn-logout').addEventListener('click', () => {
-                signOut(auth).then(() => {
-                    alert("Sesión cerrada");
-                    window.location.reload();
-                });
-            });
+            // EVENTO: Clic en el botón "Perfil" del menú lateral (div2)
+            const perfilBtn = document.querySelector('.div2 a:first-child');
+            perfilBtn.onclick = (e) => {
+                e.preventDefault();
+                showProfile(user.uid);
+            };
+
+            document.getElementById('btn-logout').onclick = () => {
+                signOut(auth).then(() => window.location.reload());
+            };
 
         } else {
-            // USUARIO DESCONECTADO: Mostramos botones originales
             authUI.innerHTML = `
-                <button class="btn-skew">Entrar</button>
+                <button class="btn-skew" onclick="window.location.href='login.html'">Entrar</button>
                 <button class="btn-skew" onclick="window.location.href='make_account.html'">Registro</button>
             `;
         }
