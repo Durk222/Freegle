@@ -624,131 +624,85 @@ a {
     font-size: 14px;
 }
 
-/* Contenedor del Perfil (Div Central de 480px) */
-.profile-container {
+/* --- ESTILOS DEL PERFIL (DIV 5) --- */
+.profile-sep {
+    height: 1px;
+    background-color: var(--bg-details);
     width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    background-color: var(--bg-base);
 }
 
-/* Panel de Usuario (Banner + Info) */
-.profile-header {
-    position: relative;
-    border-bottom: 1px solid var(--bg-details);
-}
-
-.profile-banner {
+.user-banner {
     width: 100%;
     height: 160px;
-    background-color: var(--bg-details);
+    background-color: #2a2a2a;
     background-size: cover;
     background-position: center;
 }
 
-.profile-info-bar {
-    padding: 15px;
-    position: relative;
+.user-info-row {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-between;
+    padding: 0 15px;
+    height: 45px;
 }
 
-.profile-avatar-wrapper {
-    position: absolute;
-    top: -50px;
-    left: 15px;
+.user-avatar-main {
+    position: relative;
+    top: -45px;
 }
 
-.profile-avatar {
+.user-avatar-main img {
     width: 90px;
     height: 90px;
     border-radius: 50%;
     border: 4px solid var(--bg-base);
-    background-color: var(--bg-details);
     object-fit: cover;
+    background: var(--bg-details);
 }
 
-.profile-actions {
+.user-actions-row {
+    padding-top: 10px;
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-bottom: 5px;
+    gap: 8px;
 }
 
-.profile-details h2 {
+.user-text-details {
+    padding: 15px;
+}
+
+.user-text-details h2 {
     font-family: 'Righteous', cursive;
-    font-size: 20px;
-    margin: 35px 0 5px 0; /* Espacio para el avatar que flota */
+    font-size: 22px;
+    margin: 0;
 }
 
-.profile-details p {
-    font-size: 14px;
-    color: var(--text-main);
-    line-height: 1.4;
-}
-
-/* Métricas (Seguidores, Amigos, etc.) */
 .profile-metrics {
     display: flex;
     padding: 15px;
-    gap: 20px;
-    border-bottom: 1px solid var(--bg-details);
+    gap: 25px;
 }
 
-.metric-item {
-    text-align: center;
-}
-
-.metric-value {
-    display: block;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.metric-label {
-    font-size: 12px;
-    color: var(--text-main);
-    opacity: 0.7;
-}
-
-/* Categorías y Filtros */
-.content-tabs {
+.metric {
     display: flex;
-    overflow-x: auto;
-    padding: 10px 5px;
-    gap: 5px;
-    border-bottom: 1px solid var(--bg-details);
-    scrollbar-width: none;
+    flex-direction: column;
 }
 
-.tab-btn {
-    --p: 8px;
-    background: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--bg-details);
-    padding: 6px 12px;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+.m-count { font-weight: bold; font-size: 16px; }
+.m-label { font-size: 12px; opacity: 0.7; }
+
+.profile-nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    align-items: center;
 }
 
-.tab-btn.active {
-    background: var(--link-accent);
-    color: white;
-    border-color: var(--link-accent);
+.tabs-list { display: flex; gap: 15px; }
+.tab-item {
+    background: none; border: none; color: var(--text-main);
+    font-size: 13px; cursor: pointer; padding-bottom: 5px;
 }
-
-/* Botón estilo Paralelegramo Pequeño */
-.btn-edit {
-    --p: 10px;
-    background-color: var(--bg-details);
-    color: var(--text-title);
-    border: none;
-    padding: 5px 15px;
-    font-family: 'Righteous', cursive;
-    font-size: 12px;
-    cursor: pointer;
-    clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+.tab-item.active {
+    color: var(--link-accent);
+    border-bottom: 2px solid var(--link-accent);
 }
