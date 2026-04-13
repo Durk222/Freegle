@@ -599,15 +599,27 @@ a {
 }
 
 .logout-btn {
-    background: transparent;
+    --p: 10px;
+    background-color: #B71000;
+    color: white;
+    font-family: 'Righteous', cursive;
     border: none;
-    color: var(--text-main);
+    padding: 0 15px;
+    height: 32px;
     cursor: pointer;
-    font-size: 16px;
-    opacity: 0.7;
+    clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+    transition: filter 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logout-btn:hover {
-    opacity: 1;
-    color: #ff4d4d; /* Rojo para salir */
+    filter: brightness(1.2);
+    transform: translateY(-1px) scale(1.05);
+    color: white;
+}
+
+.logout-btn i {
+    font-size: 14px;
 }
