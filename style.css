@@ -342,7 +342,7 @@ a {
     display: flex;
     align-items: center;
     padding: 0 10px;
-    margin-right: 16px; /* El espacio de 16px que pediste */
+    margin-right: 16px;
 }
 
 .search-container i {
@@ -734,4 +734,73 @@ a {
 /* Ocultar elementos cuando el perfil está activo */
 .hidden-by-profile {
     display: none !important;
+}
+
+/* El fondo oscuro detrás del modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+/* La caja del modal */
+.modal-content {
+    background-color: var(--bg-base);
+    border: 1px solid var(--bg-details);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--bg-details);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text-title);
+}
+
+.input-group input, .input-group textarea {
+    padding: 10px;
+    border: 1px solid var(--bg-details);
+    border-radius: 6px;
+    background: var(--bg-base);
+    color: var(--text-main);
+    outline: none;
+}
+
+.modal-footer {
+    padding: 15px;
+    border-top: 1px solid var(--bg-details);
+    display: flex;
+    justify-content: flex-end;
 }
