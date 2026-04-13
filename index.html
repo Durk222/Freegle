@@ -210,46 +210,51 @@
     import { getDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const authUI = document.getElementById('auth-ui');
-    const mainCenter = document.querySelector('.div5'); // Seleccionamos el centro
+    const mainCenter = document.querySelector('.div5'); // El contenedor central
 
-    // --- FUNCIÓN PARA PINTAR EL PERFIL EN EL DIV 5 ---
+    // --- FUNCIÓN PARA DIBUJAR EL PERFIL ---
     async function showProfile(uid) {
         const userDoc = await getDoc(doc(db, "users", uid));
         if (!userDoc.exists()) return;
         const data = userDoc.data();
 
-        // Limpiamos el feed y metemos el perfil
+        // Inyectamos la estructura dentro de div5
         mainCenter.innerHTML = `
             <div class="profile-view">
                 <div class="profile-card">
-                    <div class="user-banner" style="background-image: url('${data.bannerUrl || ''}');"></div>
+                    <div class="user-banner" id="p-banner" style="background-image: url('${data.bannerUrl || ''}'); background-color: #2a2a2a;"></div>
                     <div class="user-info-row">
                         <div class="user-avatar-main">
-                            <img src="${data.avatarUrl || 'default-avatar.png'}">
+                            <img src="${data.avatarUrl || 'default-avatar.png'}" id="p-avatar">
                         </div>
                         <div class="user-actions-row">
-                            <button class="btn-skew">EDITAR PERFIL</button>
-                            <button class="btn-skew"><i class="fa-solid fa-ellipsis"></i></button>
+                            <button class="btn-skew" id="btn-edit-profile">EDITAR PERFIL</button>
+                            <button class="icon-btn"><i class="fa-solid fa-ellipsis"></i></button>
                         </div>
                     </div>
                     <div class="user-text-details">
-                        <h2>${data.displayName}</h2>
-                        <span style="color: var(--link-accent)">@${data.username}</span>
-                        <p>${data.bio || 'Sin biografía...'}</p>
+                        <h2 id="p-name">${data.displayName}</h2>
+                        <span style="color: var(--link-accent); font-weight: bold;">@${data.username}</span>
+                        <p id="p-bio" style="margin-top: 8px;">${data.bio || 'Sin biografía aún...'}</p>
                     </div>
                 </div>
 
-                <div class="profile-sep"></div>
-
-                <div class="profile-metrics">
-                    <div class="metric"><span class="m-count">0</span><span class="m-label">Publicaciones</span></div>
-                    <div class="metric"><span class="m-count">0</span><span class="m-label">Seguidores</span></div>
-                    <div class="metric"><span class="m-count">0</span><span class="m-label">Amigos</span></div>
+                <div class="profile-sep"></div> <div class="profile-metrics">
+                    <div class="metric">
+                        <span class="m-count">0</span>
+                        <span class="m-label">Publicaciones</span>
+                    </div>
+                    <div class="metric">
+                        <span class="m-count">0</span>
+                        <span class="m-label">Seguidores</span>
+                    </div>
+                    <div class="metric">
+                        <span class="m-count">0</span>
+                        <span class="m-label">Amigos</span>
+                    </div>
                 </div>
 
-                <div class="profile-sep"></div>
-
-                <div class="profile-nav-tabs">
+                <div class="profile-sep"></div> <div class="profile-nav-tabs">
                     <div class="tabs-list">
                         <button class="tab-item active">Publicaciones</button>
                         <button class="tab-item">Fotos</button>
@@ -257,7 +262,11 @@
                         <button class="tab-item">Música</button>
                         <button class="tab-item">En Vivo</button>
                     </div>
-                    <button class="icon-btn"><i class="fa-solid fa-sliders"></i></button>
+                    <button class="icon-btn" title="Filtrar"><i class="fa-solid fa-sliders"></i></button>
+                </div>
+                
+                <div id="profile-posts-list" style="padding: 15px;">
+                    <p style="text-align: center; opacity: 0.5; font-size: 13px;">Aún no hay publicaciones.</p>
                 </div>
             </div>
         `;
@@ -268,6 +277,7 @@
             const userDoc = await getDoc(doc(db, "users", user.uid));
             const userData = userDoc.data();
 
+            // Interfaz de Usuario Logueado en el Header
             authUI.innerHTML = `
                 <div class="user-profile-nav">
                     <span class="nav-username">${userData.username}</span>
@@ -278,18 +288,20 @@
                 </div>
             `;
 
-            // EVENTO: Clic en el botón "Perfil" del menú lateral (div2)
-            const perfilBtn = document.querySelector('.div2 a:first-child');
-            perfilBtn.onclick = (e) => {
+            // CONFIGURAR BOTÓN PERFIL DEL MENÚ LATERAL
+            const profileLink = document.querySelector('.side-menu a:first-child');
+            profileLink.onclick = (e) => {
                 e.preventDefault();
                 showProfile(user.uid);
             };
 
+            // Cerrar sesión
             document.getElementById('btn-logout').onclick = () => {
                 signOut(auth).then(() => window.location.reload());
             };
 
         } else {
+            // Usuario no logueado
             authUI.innerHTML = `
                 <button class="btn-skew" onclick="window.location.href='login.html'">Entrar</button>
                 <button class="btn-skew" onclick="window.location.href='make_account.html'">Registro</button>
