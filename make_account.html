@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freegle - Crear Cuenta</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .register-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-base);
+        }
+        .register-card {
+            background-color: var(--bg-base);
+            border: 1px solid var(--bg-details);
+            padding: 30px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .register-card h2 {
+            font-family: 'Righteous', cursive;
+            color: var(--text-title);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--bg-details);
+            border-radius: 8px;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px dashed var(--link-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            overflow: hidden;
+            background-color: var(--bg-details);
+        }
+        /* Botón estilo paralelogramo adaptado */
+        .btn-register {
+            --p: 15px;
+            width: 100%;
+            background-color: var(--link-accent);
+            color: white;
+            font-family: 'Righteous', cursive;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%);
+            margin-top: 10px;
+        }
+        .error-msg {
+            color: #d9534f;
+            font-size: 11px;
+            margin-top: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body class="register-body">
+
+    <div class="register-card">
+        <h2>Únete a Freegle</h2>
+        <form id="registerForm" onsubmit="return validateForm(event)">
+            
+            <div class="avatar-upload">
+                <div class="avatar-preview" id="preview">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <input type="file" id="avatar" accept="image/*" style="display:none" onchange="previewImage(event)">
+                <label for="avatar" style="color: var(--link-accent); cursor: pointer; font-size: 12px;">Subir foto de perfil</label>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex:1">
+                    <label>Nombre</label>
+                    <input type="text" id="name" required placeholder="Tu nombre">
+                </div>
+                <div class="form-group" style="flex:1">
+                    <label>ID Usuario (@)</label>
+                    <input type="text" id="username" required placeholder="usuario_123" pattern="^[a-zA-Z0-9_]+$">
+                    <span class="error-msg" id="userError">Solo letras, números y '_'</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" id="email" required placeholder="ejemplo@correo.com">
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de Nacimiento</label>
+                <input type="date" id="birthdate" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex:1">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group" style="flex:1">
+                    <label>Confirmar</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Biografía (Opcional)</label>
+                <textarea id="bio" rows="2" placeholder="Cuéntanos sobre ti..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-register">CREAR CUENTA</button>
+        </form>
+    </div>
+
+    <script>
+        // Previsualización de imagen
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const preview = document.getElementById('preview');
+                preview.innerHTML = `<img src="${reader.result}" style="width:100%; height:100%; object-fit:cover;">`;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Validación Lógica
+        function validateForm(event) {
+            event.preventDefault();
+            
+            const pass = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            const username = document.getElementById('username').value;
+
+            // 1. Validar contraseñas iguales
+            if (pass !== confirm) {
+                alert("Las contraseñas no coinciden");
+                return false;
+            }
+
+            // 2. Simulación de validación de disponibilidad (Aquí iría el Backend después)
+            if (username.toLowerCase() === "admin") {
+                document.getElementById('userError').innerText = "Este nombre de usuario ya está ocupado";
+                document.getElementById('userError').style.display = "block";
+                return false;
+            }
+
+            // 3. Éxito
+            alert("¡Cuenta creada con éxito! Bienvenido a Freegle.");
+            window.location.href = "index.html"; // Regresa al feed principal
+            return true;
+        }
+    </script>
+</body>
+</html>
